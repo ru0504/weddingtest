@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026.12.20 婚禮邀約</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@300;400;500;600&family=Dancing+Script:wght@400;500;600;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', '"Noto Serif TC"', 'serif'],
+                        display: ['"Cinzel"', 'serif'],
+                        script: ['"Dancing Script"', 'cursive'],
+                    },
+                    colors: {
+                        wedding: {
+                            bg: '#FAFAF7',
+                            text: '#4A4238',
+                            oatmeal: '#E2D5C4',
+                            gardenia: '#FCE996',
+                            caramel: '#C25934',
+                            gold: '#D4AF37'
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FAFAF7; color: #4A4238; }
+        .fade-element { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .fade-element.visible { opacity: 1; transform: translateY(0); }
+        
+        /* 浪漫的自訂捲軸 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #FAFAF7; }
+        ::-webkit-scrollbar-thumb { background: #E2D5C4; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #C25934; }
+
+        /* 滿版背景圖遮罩 */
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 50;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(74, 66, 56, 0.05);
+        }
+    </style>
+</head>
+<body class="font-serif antialiased relative">
+    
+    <!-- 花瓣特效畫布 -->
+    <canvas id="canvas-container"></canvas>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-[100svh] flex items-center justify-center overflow-hidden">
+        <!-- 背景圖 -->
+        <div class="absolute inset-0 z-0 bg-[url('https://i.postimg.cc/C5Tzrq3B/feng-mian.jpg')] bg-cover bg-center bg-no-repeat transition-transform duration-10000 hover:scale-105"></div>
+        <div class="absolute inset-0 z-10 hero-overlay"></div>
+        
+        <div class="relative z-20 text-center text-white px-4 animate-fade-in-up">
+            <h3 class="text-lg md:text-xl tracking-[0.2em] mb-4 font-serif italic text-white">Everything is different now that I see you.</h3>
+            <h1 class="font-script text-7xl md:text-9xl my-4 text-white drop-shadow-lg tracking-normal font-normal">Ryan & Mellanie</h1>
+            <div class="w-24 h-[1px] bg-white/40 mx-auto mb-6"></div>
+            <p class="font-display text-xl md:text-2xl tracking-[0.4em] drop-shadow-md text-white">2026 . 12 . 20</p>
+            
+            <div class="mt-16 animate-bounce">
+                <p class="font-display text-xs tracking-[0.3em] mb-2 opacity-80">SCROLL DOWN</p>
+                <i class="ph ph-caret-down text-xl opacity-80"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-16 space-y-24">
+        
+        <!-- Countdown Section -->
+        <section class="fade-element text-center glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-wedding-oatmeal via-wedding-gardenia to-wedding-caramel"></div>
+            <h2 class="text-2xl sm:text-3xl font-medium tracking-widest mb-8 text-wedding-text/80">
+                <i class="ph-light ph-hourglass-high mr-2 text-wedding-caramel"></i>THE COUNTDOWN
+            </h2>
+            <div class="flex justify-center items-center gap-4 sm:gap-8">
+                <div class="flex flex-col items-center">
+                    <span id="cd-days" class="text-4xl sm:text-5xl font-bold text-wedding-caramel mb-2">00</span>
+                    <span class="text-sm tracking-widest text-wedding-text/60">天 Days</span>
+                </div>
+                <span class="text-3xl sm:text-4xl font-light text-wedding-text/30 pb-6">:</span>
+                <div class="flex flex-col items-center">
+                    <span id="cd-hours" class="text-4xl sm:text-5xl font-bold text-wedding-caramel mb-2">00</span>
+                    <span class="text-sm tracking-widest text-wedding-text/60">時 Hours</span>
+                </div>
+                <span class="text-3xl sm:text-4xl font-light text-wedding-text/30 pb-6">:</span>
+                <div class="flex flex-col items-center">
+                    <span id="cd-mins" class="text-4xl sm:text-5xl font-bold text-wedding-caramel mb-2">00</span>
+                    <span class="text-sm tracking-widest text-wedding-text/60">分 Mins</span>
+                </div>
+                <span class="text-3xl sm:text-4xl font-light text-wedding-text/30 pb-6 hidden sm:block">:</span>
+                <div class="flex flex-col items-center hidden sm:flex">
+                    <span id="cd-secs" class="text-4xl sm:text-5xl font-bold text-wedding-caramel mb-2">00</span>
+                    <span class="text-sm tracking-widest text-wedding-text/60">秒 Secs</span>
+                </div>
+            </div>
+            <p class="mt-8 text-sm text-wedding-text/50 tracking-widest">「我曾經以為『成為英雄』是獨自拯救世界，但遇見你之後我才明白，只要能守護你的笑容，就是我一生最大的使命。」</p>
+        </section>
+
+        <!-- Information & Transportation -->
+        <section class="fade-element grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            
+            <!-- Banquet Info -->
+            <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] border border-wedding-oatmeal/30 relative">
+                <i class="ph-light ph-calendar-heart text-5xl text-wedding-oatmeal absolute top-8 right-8 opacity-50"></i>
+                <h2 class="text-2xl font-medium tracking-widest mb-8 border-b border-wedding-oatmeal pb-4 inline-block">午宴資訊</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <i class="ph-fill ph-clock text-xl text-wedding-caramel mt-1"></i>
+                        <div>
+                            <p class="font-medium text-lg tracking-wider mb-1">時間</p>
+                            <p class="text-wedding-text/80">2026年12月20日 (日)</p>
+                            <p class="text-wedding-text/80">11:30 入席 │ 12:00 準時開席</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i class="ph-fill ph-map-pin text-xl text-wedding-caramel mt-1"></i>
+                        <div>
+                            <p class="font-medium text-lg tracking-wider mb-1">地點</p>
+                            <p class="text-wedding-text/80 mb-2">新高乙鮮婚宴會館</p>
+                            <p class="text-sm text-wedding-text/60 mb-3">彰化縣永靖鄉永北村永坡路163號</p>
+                            <a href="https://maps.google.com/?q=新高乙鮮婚宴會館" target="_blank" class="inline-flex items-center gap-2 text-xs text-white bg-wedding-caramel px-4 py-2 rounded-full hover:bg-opacity-90 transition-all">
+                                <i class="ph ph-navigation-arrow"></i> 開啟 Google 導航
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Traffic Info -->
+            <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] border border-wedding-oatmeal/30 relative">
+                <i class="ph-light ph-car-profile text-5xl text-wedding-oatmeal absolute top-8 right-8 opacity-50"></i>
+                <h2 class="text-2xl font-medium tracking-widest mb-8 border-b border-wedding-oatmeal pb-4 inline-block">交通指南</h2>
+                
+                <div class="space-y-6 text-sm">
+                    <!-- 北部南下 -->
+                    <div class="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-wedding-caramel before:rounded-full">
+                        <h3 class="font-medium text-base tracking-wider mb-2">北部南下</h3>
+                        <p class="text-wedding-text/70 leading-relaxed text-xs">
+                            國道1號 <i class="ph ph-arrow-right inline align-middle mx-1 text-wedding-caramel"></i> 員林交流道下 <br>
+                            <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 接台76線快速道路往員林方向 <br>
+                            <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 抵達會館
+                        </p>
+                    </div>
+                    <!-- 南部北上 -->
+                    <div class="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-wedding-caramel before:rounded-full">
+                        <h3 class="font-medium text-base tracking-wider mb-2">南部北上</h3>
+                        <p class="text-wedding-text/70 leading-relaxed text-xs">
+                            國道1號 <i class="ph ph-arrow-right inline align-middle mx-1 text-wedding-caramel"></i> 北斗交流道下 <br>
+                            <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 依導航前往永靖鄉永坡路163號 <br>
+                            <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 抵達會館
+                        </p>
+                    </div>
+                    <!-- 高鐵 -->
+                    <div class="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-wedding-caramel before:rounded-full">
+                        <h3 class="font-medium text-base tracking-wider mb-2">搭乘高鐵</h3>
+                        <p class="text-wedding-text/70 leading-relaxed text-xs">
+                            請於「高鐵彰化站」下車，轉乘計程車約15～20分鐘即可抵達會場。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dress Code -->
+        <section class="fade-element text-center py-8">
+            <h2 class="text-3xl font-medium tracking-widest mb-4 inline-block relative">
+                Dress Code
+                <span class="block absolute -bottom-3 left-1/4 right-1/4 h-[1px] bg-wedding-caramel/50"></span>
+            </h2>
+            <p class="text-wedding-text/60 mt-6 mb-12 tracking-wider text-sm">邀請您穿上以下色系的服裝，與我們一同留下美麗的回憶</p>
+
+            <div class="flex flex-wrap justify-center gap-8 sm:gap-16">
+                <!-- 燕麥奶茶 -->
+                <div class="group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-wedding-oatmeal shadow-lg mb-4 transform transition-transform group-hover:scale-110 flex items-center justify-center border-4 border-white">
+                        <i class="ph-light ph-shirt-folded text-4xl text-wedding-text/30 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <h3 class="font-medium tracking-widest">燕麥奶茶</h3>
+                    <p class="text-xs text-wedding-text/50 mt-1 uppercase tracking-widest">Oatmeal</p>
+                </div>
+                
+                <!-- 梔子黃 -->
+                <div class="group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-wedding-gardenia shadow-lg mb-4 transform transition-transform group-hover:scale-110 flex items-center justify-center border-4 border-white">
+                        <i class="ph-light ph-dress text-4xl text-wedding-text/30 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <h3 class="font-medium tracking-widest">梔子黃</h3>
+                    <p class="text-xs text-wedding-text/50 mt-1 uppercase tracking-widest">Gardenia Yellow</p>
+                </div>
+
+                <!-- 焦糖磚紅 -->
+                <div class="group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-wedding-caramel shadow-lg mb-4 transform transition-transform group-hover:scale-110 flex items-center justify-center border-4 border-white">
+                        <i class="ph-light ph-sneaker text-4xl text-white/50 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <h3 class="font-medium tracking-widest">焦糖磚紅</h3>
+                    <p class="text-xs text-wedding-text/50 mt-1 uppercase tracking-widest">Caramel</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Attendance Form (No RSVP text) -->
+        <section id="form-section" class="fade-element bg-white rounded-[2rem] p-8 sm:p-12 shadow-xl border border-wedding-oatmeal/20 relative">
+            <div class="text-center mb-10">
+                <i class="ph-light ph-envelope-open text-4xl text-wedding-caramel mb-4 inline-block"></i>
+                <h2 class="text-3xl font-medium tracking-widest">出席回函</h2>
+                <p class="text-wedding-text/60 mt-3 text-sm tracking-wider">誠摯地邀請您參與我們的婚禮，請協助填寫以下資訊</p>
+            </div>
+
+            <!-- 成功訊息畫面 (預設隱藏) -->
+            <div id="success-message" class="hidden flex flex-col items-center justify-center py-12 text-center">
+                <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
+                    <i class="ph-fill ph-check-circle text-4xl"></i>
+                </div>
+                <h3 class="text-2xl font-medium mb-2 tracking-widest">感謝您的回覆</h3>
+                <p class="text-wedding-text/70">期待在婚禮當天與您相見！</p>
+                <button onclick="resetForm()" class="mt-8 text-sm text-wedding-caramel underline tracking-widest hover:text-opacity-70">重新填寫表單</button>
+            </div>
+
+            <form id="attendance-form" class="space-y-6 max-w-2xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- 姓名 -->
+                    <div>
+                        <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">姓名 <span class="text-red-500">*</span></label>
+                        <input type="text" id="guest-name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50" placeholder="請輸入您的姓名">
+                    </div>
+                    <!-- 電話 -->
+                    <div>
+                        <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">聯絡電話 <span class="text-red-500">*</span></label>
+                        <input type="tel" id="guest-phone" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50" placeholder="09XX-XXX-XXX">
+                    </div>
+                </div>
+
+                <!-- 與新人的關係 & Email/Line -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- 與新人的關係 -->
+                    <div>
+                        <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">與新人的關係 <span class="text-red-500">*</span></label>
+                        <select id="guest-relation" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50">
+                            <option value="" disabled selected>請選擇您與新人的關係</option>
+                            <option value="男方家人親戚">男方家人親戚</option>
+                            <option value="男方長官同事">男方長官同事</option>
+                            <option value="男方同學、好友">男方同學、好友</option>
+                            <option value="女方家人親戚">女方家人親戚</option>
+                            <option value="女方長官同事">女方長官同事</option>
+                            <option value="女方同學、好友">女方同學、好友</option>
+                        </select>
+                    </div>
+                    <!-- Email 或 Line ID -->
+                    <div>
+                        <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">Email 或 Line ID (選填)</label>
+                        <input type="text" id="guest-contact-extra" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50" placeholder="方便我們後續聯繫">
+                    </div>
+                </div>
+
+                <!-- 喜帖寄送方式 -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">是否需要寄送喜帖 <span class="text-red-500">*</span></label>
+                        <select id="invitation-preference" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50">
+                            <option value="" disabled selected>請選擇喜帖需求</option>
+                            <option value="紙本喜帖">需要，請寄紙本喜帖給我做紀念</option>
+                            <option value="不需要">不用呦！婚宴資訊我知道了</option>
+                            <option value="電子喜帖">需要，給我電子喜帖就可以囉！</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 郵寄地址 (選擇紙本喜帖時顯示) -->
+                    <div id="address-container" class="hidden transition-all duration-300">
+                        <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">郵寄地址 (含郵遞區號) <span class="text-red-500">*</span></label>
+                        <input type="text" id="guest-address" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50" placeholder="請輸入您的完整收件地址">
+                    </div>
+                </div>
+
+                <!-- 出席意願 -->
+                <div>
+                    <label class="block text-sm font-medium text-wedding-text/80 mb-3 tracking-widest">出席意願 <span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-wedding-oatmeal/10 transition-colors has-[:checked]:border-wedding-caramel has-[:checked]:bg-wedding-caramel/5">
+                            <input type="radio" name="attendance" value="attend" required class="w-4 h-4 text-wedding-caramel accent-wedding-caramel" checked>
+                            <span class="ml-3 tracking-widest">準時出席，共享喜悅</span>
+                        </label>
+                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-wedding-oatmeal/10 transition-colors has-[:checked]:border-wedding-caramel has-[:checked]:bg-wedding-caramel/5">
+                            <input type="radio" name="attendance" value="absent" class="w-4 h-4 text-wedding-caramel accent-wedding-caramel">
+                            <span class="ml-3 tracking-widest">無法出席，給予祝福</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 條件顯示區塊 (選擇出席才顯示) -->
+                <div id="attend-details" class="space-y-6 transition-all duration-500 overflow-hidden">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- 人數 -->
+                        <div>
+                            <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">出席人數 (含本人) <span class="text-red-500">*</span></label>
+                            <select id="guest-count" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50">
+                                <option value="1">1 人</option>
+                                <option value="2">2 人</option>
+                                <option value="3">3 人</option>
+                                <option value="4">4 人</option>
+                                <option value="5">5 人以上 (請於備註說明)</option>
+                            </select>
+                        </div>
+                        <!-- 飲食習慣 -->
+                        <div>
+                            <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">飲食習慣 <span class="text-red-500">*</span></label>
+                            <select id="diet-preference" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50">
+                                <option value="葷食">葷食</option>
+                                <option value="素食">素食</option>
+                                <option value="部分素食">有部分親友吃素 (請於備註說明人數)</option>
+                            </select>
+                        </div>
+                        <!-- 兒童座椅數 -->
+                        <div>
+                            <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">兒童座椅數</label>
+                            <select id="child-seat-count" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50">
+                                <option value="0">不需要</option>
+                                <option value="1">1 張</option>
+                                <option value="2">2 張</option>
+                                <option value="3">3 張</option>
+                                <option value="4">4 張以上 (請於備註說明)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 祝福留言 -->
+                <div>
+                    <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">想對新人說的話 / 備註事項</label>
+                    <textarea id="guest-message" rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50 resize-none" placeholder="留下您的祝福，或是任何需要我們注意的事項..."></textarea>
+                </div>
+
+                <!-- 錯誤訊息提示 -->
+                <div id="form-error" class="text-red-500 text-sm tracking-widest hidden text-center"></div>
+
+                <!-- 提交按鈕 -->
+                <button type="submit" id="submit-btn" class="w-full bg-wedding-caramel hover:bg-opacity-90 text-white font-medium tracking-widest py-4 rounded-xl transition-all flex justify-center items-center gap-2 group">
+                    <span>送出回函</span>
+                    <i class="ph-bold ph-paper-plane-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- Message Wall (Real-time data from Firestore) -->
+        <section class="fade-element py-8 mb-12">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-medium tracking-widest mb-2">祝福留言板</h2>
+                <p class="text-wedding-text/50 text-xs tracking-wider">來自親友們的愛與祝福</p>
+            </div>
+            
+            <div id="messages-container" class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
+                <!-- 留言卡片將會透過 JS 動態生成在這裡 -->
+                <div class="text-center w-full col-span-full py-10 text-wedding-text/40 tracking-widest text-sm flex flex-col items-center">
+                    <i class="ph ph-spinner-gap animate-spin text-2xl mb-2"></i>
+                    載入祝福中...
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-[#e8dfd3] py-10 text-center text-wedding-text/60 text-sm tracking-widest border-t border-[#d8cdbf]">
+        <p class="mb-2">We are getting married</p>
+        <p class="text-xs opacity-70">© 2026.12.20</p>
+    </footer>
+
+    <!-- 引入 Firebase 模組 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 從環境變數獲取配置
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-wedding-app';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            // 提供空的預設值以防環境變數未定義時報錯，但在真實環境下會依賴上層注入
+        };
+
+        let db, auth;
+        let isFirebaseReady = false;
+
+        // 初始化 Firebase
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            isFirebaseReady = true;
+        } catch (error) {
+            console.error("Firebase 初始化失敗:", error);
+            document.getElementById('messages-container').innerHTML = '<p class="text-center w-full col-span-full py-10 text-wedding-text/40 tracking-widest text-sm">目前無法載入祝福留言 (僅提供預覽模式)</p>';
+        }
+
+        // --- 動畫與互動特效 ---
+
+        // 倒數計時邏輯 (倒數至 2026-12-20 10:00:00)
+        function updateCountdown() {
+            const targetDate = new Date('2026-12-20T10:00:00+08:00').getTime();
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('cd-days').innerText = "00";
+                document.getElementById('cd-hours').innerText = "00";
+                document.getElementById('cd-mins').innerText = "00";
+                document.getElementById('cd-secs').innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('cd-days').innerText = days.toString().padStart(2, '0');
+            document.getElementById('cd-hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('cd-mins').innerText = minutes.toString().padStart(2, '0');
+            document.getElementById('cd-secs').innerText = seconds.toString().padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 滾動漸現動畫 (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.fade-element').forEach(el => observer.observe(el));
+
+        // 花瓣飄落特效 (Canvas)
+        const canvas = document.getElementById('canvas-container');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let petals = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Petal {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height - height;
+                this.w = 5 + Math.random() * 10;
+                this.h = 10 + Math.random() * 15;
+                this.opacity = 0.2 + Math.random() * 0.5;
+                this.speedY = 0.5 + Math.random() * 1.5;
+                this.speedX = -0.5 + Math.random() * 1;
+                this.angle = Math.random() * 360;
+                this.spin = -0.05 + Math.random() * 0.1;
+                // 使用接近 Dress code 的顏色
+                const colors = ['#E2D5C4', '#FCE996', '#C25934', '#FFFFFF'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX + Math.sin(this.y / 100) * 0.5;
+                this.angle += this.spin;
+                if (this.y > height) {
+                    this.y = -20;
+                    this.x = Math.random() * width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                // 畫花瓣形狀
+                ctx.ellipse(0, 0, this.w/2, this.h/2, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // 初始化少許花瓣，營造浪漫感不干擾閱讀
+        for (let i = 0; i < 30; i++) petals.push(new Petal());
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            petals.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        // --- 表單與 Firebase 邏輯 ---
+
+        // 表單 UI 互動：切換出席/不出席的輸入欄位
+        const attendanceRadios = document.querySelectorAll('input[name="attendance"]');
+        const attendDetails = document.getElementById('attend-details');
+        
+        attendanceRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'attend') {
+                    attendDetails.style.height = attendDetails.scrollHeight + "px";
+                    attendDetails.style.opacity = "1";
+                    setTimeout(() => attendDetails.style.height = "auto", 500);
+                } else {
+                    attendDetails.style.height = attendDetails.scrollHeight + "px"; // for animation
+                    setTimeout(() => {
+                        attendDetails.style.height = "0";
+                        attendDetails.style.opacity = "0";
+                    }, 10);
+                }
+            });
+        });
+
+        // 表單 UI 互動：切換喜帖地址輸入欄位
+        const invitationSelect = document.getElementById('invitation-preference');
+        const addressContainer = document.getElementById('address-container');
+        const addressInput = document.getElementById('guest-address');
+
+        invitationSelect.addEventListener('change', (e) => {
+            if (e.target.value === '紙本喜帖') {
+                addressContainer.classList.remove('hidden');
+                addressInput.required = true;
+            } else {
+                addressContainer.classList.add('hidden');
+                addressInput.required = false;
+                addressInput.value = ''; // 清空已輸入的地址
+            }
+        });
+
+        window.resetForm = function() {
+            document.getElementById('attendance-form').reset();
+            document.getElementById('attendance-form').classList.remove('hidden');
+            document.getElementById('success-message').classList.add('hidden');
+            document.getElementById('form-error').classList.add('hidden');
+            // 恢復出席預設顯示
+            attendDetails.style.height = "auto";
+            attendDetails.style.opacity = "1";
+            // 隱藏地址欄位
+            if(addressContainer) {
+                addressContainer.classList.add('hidden');
+                addressInput.required = false;
+            }
+        };
+
+        // Firebase 認證與資料操作
+        async function setupFirebase() {
+            if (!isFirebaseReady) return;
+
+            try {
+                // 1. 匿名登入 (Firestore 規則需要)
+                const token = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                if (token) {
+                    await signInWithCustomToken(auth, token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // 定義集合路徑 (依循 MANDATORY RULES 1)
+                const collectionPath = `artifacts/${appId}/public/data/wedding_rsvp`;
+                const rsvpRef = collection(db, collectionPath);
+
+                // 2. 監聽留言板資料 (依循 MANDATORY RULES 2，不使用複雜 query)
+                onSnapshot(rsvpRef, (snapshot) => {
+                    const container = document.getElementById('messages-container');
+                    const messages = [];
+                    
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.message && data.message.trim() !== '') {
+                            messages.push({
+                                id: doc.id,
+                                ...data,
+                                time: data.timestamp ? data.timestamp.toMillis() : Date.now()
+                            });
+                        }
+                    });
+
+                    // 在記憶體中排序 (最新在上)
+                    messages.sort((a, b) => b.time - a.time);
+
+                    if (messages.length === 0) {
+                        container.innerHTML = '<p class="text-center w-full col-span-full py-10 text-wedding-text/40 tracking-widest text-sm">目前還沒有留言，成為第一個留下祝福的人吧！</p>';
+                        return;
+                    }
+
+                    container.innerHTML = ''; // 清空
+                    messages.forEach(msg => {
+                        // 建立瀑布流卡片
+                        const card = document.createElement('div');
+                        card.className = 'bg-white p-6 rounded-2xl shadow-sm border border-wedding-oatmeal/20 break-inside-avoid inline-block w-full';
+                        
+                        // 判斷是否出席給予不同標籤顏色
+                        const isAttending = msg.attendance === 'attend';
+                        const badgeHtml = isAttending 
+                            ? `<span class="text-[10px] bg-wedding-gardenia/30 text-wedding-text/70 px-2 py-1 rounded-full mb-2 inline-block">將出席</span>`
+                            : `<span class="text-[10px] bg-gray-100 text-wedding-text/50 px-2 py-1 rounded-full mb-2 inline-block">隔空祝福</span>`;
+
+                        const dateStr = new Date(msg.time).toLocaleDateString('zh-TW');
+
+                        card.innerHTML = `
+                            ${badgeHtml}
+                            <p class="text-wedding-text/90 leading-relaxed text-sm mb-4">"${escapeHtml(msg.message)}"</p>
+                            <div class="flex justify-between items-end border-t border-gray-100 pt-3">
+                                <span class="font-medium tracking-wider text-wedding-caramel">${escapeHtml(msg.name)}</span>
+                                <span class="text-[10px] text-gray-400">${dateStr}</span>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                }, (error) => {
+                    console.error("讀取留言失敗:", error);
+                    document.getElementById('messages-container').innerHTML = '<p class="text-center w-full col-span-full py-10 text-red-400/60 tracking-widest text-sm">無法載入留言板</p>';
+                });
+
+                // 3. 處理表單送出
+                const form = document.getElementById('attendance-form');
+                const submitBtn = document.getElementById('submit-btn');
+                const errorDiv = document.getElementById('form-error');
+
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    // 檢查登入狀態
+                    if (!auth.currentUser) {
+                        errorDiv.innerText = "系統連線異常，請稍後再試。";
+                        errorDiv.classList.remove('hidden');
+                        return;
+                    }
+
+                    const name = document.getElementById('guest-name').value;
+                    const phone = document.getElementById('guest-phone').value;
+                    const contactExtra = document.getElementById('guest-contact-extra').value;
+                    const relation = document.getElementById('guest-relation').value;
+                    const attendance = document.querySelector('input[name="attendance"]:checked').value;
+                    const count = attendance === 'attend' ? document.getElementById('guest-count').value : "0";
+                    const diet = attendance === 'attend' ? document.getElementById('diet-preference').value : "無";
+                    const childSeats = attendance === 'attend' ? document.getElementById('child-seat-count').value : "0";
+                    const invitation = document.getElementById('invitation-preference').value;
+                    const address = document.getElementById('guest-address').value;
+                    const message = document.getElementById('guest-message').value;
+
+                    // UI 變更為載入中
+                    const originalBtnText = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="ph ph-spinner animate-spin text-xl"></i> 送出中...';
+                    errorDiv.classList.add('hidden');
+
+                    try {
+                        await addDoc(rsvpRef, {
+                            name: name,
+                            phone: phone,
+                            contactExtra: contactExtra,
+                            relation: relation,
+                            attendance: attendance,
+                            guestCount: parseInt(count, 10),
+                            dietPreference: diet,
+                            childSeats: parseInt(childSeats, 10),
+                            invitationPreference: invitation,
+                            address: address,
+                            message: message,
+                            timestamp: serverTimestamp(),
+                            userId: auth.currentUser.uid // 綁定提交者 ID
+                        });
+
+                        // 成功，切換顯示畫面
+                        form.classList.add('hidden');
+                        document.getElementById('success-message').classList.remove('hidden');
+                        
+                    } catch (error) {
+                        console.error("送出失敗:", error);
+                        errorDiv.innerText = "送出失敗，請檢查網路連線或稍後再試。";
+                        errorDiv.classList.remove('hidden');
+                    } finally {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+                    }
+                });
+
+            } catch (error) {
+                console.error("Firebase 設定流程中發生錯誤:", error);
+            }
+        }
+
+        // 啟動流程
+        if(isFirebaseReady) {
+            setupFirebase();
+        }
+
+        // 簡單的防止 XSS 輔助函數
+        function escapeHtml(unsafe) {
+            if(!unsafe) return "";
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
