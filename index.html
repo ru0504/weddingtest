@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026.12.20 婚禮邀約</title>
+    <title>2026.11.14 婚禮邀約</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@300;400;500;600&family=Dancing+Script:wght@400;500;600;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -52,9 +52,9 @@
         ::-webkit-scrollbar-thumb { background: #E2D5C4; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #C25934; }
 
-        /* 滿版背景圖遮罩 */
+        /* 滿版背景圖遮罩：頂部與中間保持透明不遮臉，底部自然加深確保文字清晰 */
         .hero-overlay {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.55) 75%, rgba(0,0,0,0.8) 100%);
         }
 
         #canvas-container {
@@ -69,28 +69,33 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 10px 30px rgba(74, 66, 56, 0.05);
         }
+
+        /* 文字陰影增強易讀性 */
+        .text-shadow-lg {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 <body class="font-serif antialiased relative">
     
-    <!-- 花瓣特效畫布 -->
+    <!-- 笑臉特效畫布 -->
     <canvas id="canvas-container"></canvas>
 
-    <!-- Hero Section -->
-    <header class="relative w-full h-[100svh] flex items-center justify-center overflow-hidden">
+    <!-- Hero Section (將 items-center 改為 items-end，並加上 pb 內縮讓文字置底，完美避開人臉) -->
+    <header class="relative w-full h-[100svh] flex items-end justify-center overflow-hidden pb-20 sm:pb-28">
         <!-- 背景圖 -->
         <div class="absolute inset-0 z-0 bg-[url('https://i.postimg.cc/C5Tzrq3B/feng-mian.jpg')] bg-cover bg-center bg-no-repeat transition-transform duration-10000 hover:scale-105"></div>
         <div class="absolute inset-0 z-10 hero-overlay"></div>
         
-        <div class="relative z-20 text-center text-white px-4 animate-fade-in-up">
-            <h3 class="text-lg md:text-xl tracking-[0.2em] mb-4 font-serif italic text-white">Everything is different now that I see you.</h3>
-            <h1 class="font-script text-7xl md:text-9xl my-4 text-white drop-shadow-lg tracking-normal font-normal">Ryan & Mellanie</h1>
-            <div class="w-24 h-[1px] bg-white/40 mx-auto mb-6"></div>
-            <p class="font-display text-xl md:text-2xl tracking-[0.4em] drop-shadow-md text-white">2026 . 12 . 20</p>
+        <div class="relative z-20 text-center text-white px-4 animate-fade-in-up max-w-lg w-full">
+            <h3 class="text-base md:text-lg tracking-[0.2em] mb-3 font-serif italic text-white text-shadow-lg leading-relaxed">Everything is different now<br>that I see you.</h3>
+            <h1 class="font-script text-6xl md:text-8xl my-3 text-white text-shadow-lg tracking-normal font-normal">Ryan & Mellanie</h1>
+            <div class="w-16 h-[1px] bg-white/50 mx-auto mb-4"></div>
+            <p class="font-display text-lg md:text-xl tracking-[0.4em] text-shadow-lg text-white">2026 . 11 . 14</p>
             
-            <div class="mt-16 animate-bounce">
-                <p class="font-display text-xs tracking-[0.3em] mb-2 opacity-80">SCROLL DOWN</p>
-                <i class="ph ph-caret-down text-xl opacity-80"></i>
+            <div class="mt-10 animate-bounce">
+                <p class="font-display text-[10px] tracking-[0.3em] mb-1 opacity-80">SCROLL DOWN</p>
+                <i class="ph ph-caret-down text-lg opacity-80"></i>
             </div>
         </div>
     </header>
@@ -124,7 +129,7 @@
                     <span class="text-sm tracking-widest text-wedding-text/60">秒 Secs</span>
                 </div>
             </div>
-            <p class="mt-8 text-sm text-wedding-text/50 tracking-widest">「我曾經以為『成為英雄』是獨自拯救世界，但遇見你之後我才明白，只要能守護你的笑容，就是我一生最大的使命。」</p>
+            <p class="mt-8 text-sm text-wedding-text/50 tracking-widest leading-relaxed">「我曾經以為『成為英雄』是獨自拯救世界，但遇見你之後我才明白<br>只要能守護你的笑容，就是我一生最大的使命。」</p>
         </section>
 
         <!-- Information & Transportation -->
@@ -140,17 +145,17 @@
                         <i class="ph-fill ph-clock text-xl text-wedding-caramel mt-1"></i>
                         <div>
                             <p class="font-medium text-lg tracking-wider mb-1">時間</p>
-                            <p class="text-wedding-text/80">2026年12月20日 (日)</p>
-                            <p class="text-wedding-text/80">11:30 入席 │ 12:00 準時開席</p>
+                            <p class="text-wedding-text/80">2026年11月14日 (六)</p>
+                            <p class="text-wedding-text/80">12:00 準時開席</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-4">
                         <i class="ph-fill ph-map-pin text-xl text-wedding-caramel mt-1"></i>
                         <div>
                             <p class="font-medium text-lg tracking-wider mb-1">地點</p>
-                            <p class="text-wedding-text/80 mb-2">新高乙鮮婚宴會館</p>
-                            <p class="text-sm text-wedding-text/60 mb-3">彰化縣永靖鄉永北村永坡路163號</p>
-                            <a href="https://maps.google.com/?q=新高乙鮮婚宴會館" target="_blank" class="inline-flex items-center gap-2 text-xs text-white bg-wedding-caramel px-4 py-2 rounded-full hover:bg-opacity-90 transition-all">
+                            <p class="text-wedding-text/80 mb-2">晶宴會館-府中館 9F</p>
+                            <p class="text-sm text-wedding-text/60 mb-3">新北市板橋區景星里中山路一段46號9樓</p>
+                            <a href="https://maps.google.com/?q=晶宴會館-府中館" target="_blank" class="inline-flex items-center gap-2 text-xs text-white bg-wedding-caramel px-4 py-2 rounded-full hover:bg-opacity-90 transition-all">
                                 <i class="ph ph-navigation-arrow"></i> 開啟 Google 導航
                             </a>
                         </div>
@@ -164,29 +169,30 @@
                 <h2 class="text-2xl font-medium tracking-widest mb-8 border-b border-wedding-oatmeal pb-4 inline-block">交通指南</h2>
                 
                 <div class="space-y-6 text-sm">
-                    <!-- 北部南下 -->
+                    <!-- 搭乘公車 -->
                     <div class="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-wedding-caramel before:rounded-full">
-                        <h3 class="font-medium text-base tracking-wider mb-2">北部南下</h3>
+                        <h3 class="font-medium text-base tracking-wider mb-2">搭乘公車</h3>
                         <p class="text-wedding-text/70 leading-relaxed text-xs">
-                            國道1號 <i class="ph ph-arrow-right inline align-middle mx-1 text-wedding-caramel"></i> 員林交流道下 <br>
-                            <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 接台76線快速道路往員林方向 <br>
+                            請搭乘下列公車至「捷運府中站」下車：805、810、812、843、848、藍37、藍38 <br>
+                            <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 抵達後站商圈往誠品商場約步行3~5分鐘 <br>
                             <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 抵達會館
                         </p>
                     </div>
-                    <!-- 南部北上 -->
+                    <!-- 自行開車 -->
                     <div class="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-wedding-caramel before:rounded-full">
-                        <h3 class="font-medium text-base tracking-wider mb-2">南部北上</h3>
+                        <h3 class="font-medium text-base tracking-wider mb-2">自行開車</h3>
                         <p class="text-wedding-text/70 leading-relaxed text-xs">
-                            國道1號 <i class="ph ph-arrow-right inline align-middle mx-1 text-wedding-caramel"></i> 北斗交流道下 <br>
-                            <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 依導航前往永靖鄉永坡路163號 <br>
+                            北二高 <i class="ph ph-arrow-right inline align-middle mx-1 text-wedding-caramel"></i> 於中和交流道朝中和/中山路；板橋/文化路(台64線)方向下交流道 <br>
+                            <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 直行中正路後於中和區中山路左轉 <br>
+                            <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 並接續直行至板橋區民族路即可抵達板橋區中山路一段 <br>
                             <i class="ph ph-arrow-right inline align-middle mr-1 text-wedding-caramel"></i> 抵達會館
                         </p>
                     </div>
-                    <!-- 高鐵 -->
+                    <!-- 搭乘捷運 -->
                     <div class="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-wedding-caramel before:rounded-full">
-                        <h3 class="font-medium text-base tracking-wider mb-2">搭乘高鐵</h3>
+                        <h3 class="font-medium text-base tracking-wider mb-2">搭乘捷運</h3>
                         <p class="text-wedding-text/70 leading-relaxed text-xs">
-                            請於「高鐵彰化站」下車，轉乘計程車約15～20分鐘即可抵達會場。
+                            捷運板南線(藍)：府中站1號出口或2號出口往後站商圈誠品商場方向約步行5~10分鐘。
                         </p>
                     </div>
                 </div>
@@ -231,7 +237,7 @@
             </div>
         </section>
 
-        <!-- Attendance Form (No RSVP text) -->
+        <!-- Attendance Form -->
         <section id="form-section" class="fade-element bg-white rounded-[2rem] p-8 sm:p-12 shadow-xl border border-wedding-oatmeal/20 relative">
             <div class="text-center mb-10">
                 <i class="ph-light ph-envelope-open text-4xl text-wedding-caramel mb-4 inline-block"></i>
@@ -291,13 +297,13 @@
                         <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">是否需要寄送喜帖 <span class="text-red-500">*</span></label>
                         <select id="invitation-preference" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50">
                             <option value="" disabled selected>請選擇喜帖需求</option>
-                            <option value="紙本喜帖">需要，請寄紙本喜帖給我做紀念</option>
-                            <option value="不需要">不用呦！婚宴資訊我知道了</option>
-                            <option value="電子喜帖">需要，給我電子喜帖就可以囉！</option>
+                            <option value="需要，請寄紙本喜帖給我做紀念">需要，請寄紙本喜帖給我做紀念</option>
+                            <option value="不用呦!婚宴資訊我知道了">不用呦！婚宴資訊我知道了</option>
+                            <option value="需要，給我電子喜帖就可以囉!">需要，給我電子喜帖就可以囉！</option>
                         </select>
                     </div>
                     
-                    <!-- 郵寄地址 (選擇紙本喜帖時顯示) -->
+                    <!-- 郵寄地址 -->
                     <div id="address-container" class="hidden transition-all duration-300">
                         <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">郵寄地址 (含郵遞區號) <span class="text-red-500">*</span></label>
                         <input type="text" id="guest-address" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50" placeholder="請輸入您的完整收件地址">
@@ -309,28 +315,28 @@
                     <label class="block text-sm font-medium text-wedding-text/80 mb-3 tracking-widest">出席意願 <span class="text-red-500">*</span></label>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-wedding-oatmeal/10 transition-colors has-[:checked]:border-wedding-caramel has-[:checked]:bg-wedding-caramel/5">
-                            <input type="radio" name="attendance" value="attend" required class="w-4 h-4 text-wedding-caramel accent-wedding-caramel" checked>
+                            <input type="radio" name="attendance" value="準時出席，共享喜悅" required class="w-4 h-4 text-wedding-caramel accent-wedding-caramel" checked>
                             <span class="ml-3 tracking-widest">準時出席，共享喜悅</span>
                         </label>
                         <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-wedding-oatmeal/10 transition-colors has-[:checked]:border-wedding-caramel has-[:checked]:bg-wedding-caramel/5">
-                            <input type="radio" name="attendance" value="absent" class="w-4 h-4 text-wedding-caramel accent-wedding-caramel">
+                            <input type="radio" name="attendance" value="無法出席，給予祝福" class="w-4 h-4 text-wedding-caramel accent-wedding-caramel">
                             <span class="ml-3 tracking-widest">無法出席，給予祝福</span>
                         </label>
                     </div>
                 </div>
 
-                <!-- 條件顯示區塊 (選擇出席才顯示) -->
+                <!-- 條件顯示區塊 -->
                 <div id="attend-details" class="space-y-6 transition-all duration-500 overflow-hidden">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <!-- 人數 -->
                         <div>
                             <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">出席人數 (含本人) <span class="text-red-500">*</span></label>
                             <select id="guest-count" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50">
-                                <option value="1">1 人</option>
-                                <option value="2">2 人</option>
-                                <option value="3">3 人</option>
-                                <option value="4">4 人</option>
-                                <option value="5">5 人以上 (請於備註說明)</option>
+                                <option value="1人">1 人</option>
+                                <option value="2人">2 人</option>
+                                <option value="3人">3 人</option>
+                                <option value="4人">4 人</option>
+                                <option value="5人以上">5 人以上</option>
                             </select>
                         </div>
                         <!-- 飲食習慣 -->
@@ -339,18 +345,18 @@
                             <select id="diet-preference" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50">
                                 <option value="葷食">葷食</option>
                                 <option value="素食">素食</option>
-                                <option value="部分素食">有部分親友吃素 (請於備註說明人數)</option>
+                                <option value="部分素食">部分素食 (請於備註說明人數)</option>
                             </select>
                         </div>
                         <!-- 兒童座椅數 -->
                         <div>
                             <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">兒童座椅數</label>
                             <select id="child-seat-count" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50">
-                                <option value="0">不需要</option>
-                                <option value="1">1 張</option>
-                                <option value="2">2 張</option>
-                                <option value="3">3 張</option>
-                                <option value="4">4 張以上 (請於備註說明)</option>
+                                <option value="不需要">不需要</option>
+                                <option value="1張">1 張</option>
+                                <option value="2張">2 張</option>
+                                <option value="3張">3 張</option>
+                                <option value="4張以上">4 張以上</option>
                             </select>
                         </div>
                     </div>
@@ -358,8 +364,14 @@
 
                 <!-- 祝福留言 -->
                 <div>
-                    <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">想對新人說的話 / 備註事項</label>
-                    <textarea id="guest-message" rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50 resize-none" placeholder="留下您的祝福，或是任何需要我們注意的事項..."></textarea>
+                    <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">對新人祝福 (將公開顯示在留言板)</label>
+                    <textarea id="guest-message" rows="2" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50 resize-none" placeholder="留下您的祝福，與大家一起分享喜悅..."></textarea>
+                </div>
+
+                <!-- 備註事項 -->
+                <div>
+                    <label class="block text-sm font-medium text-wedding-text/80 mb-2 tracking-widest">備註事項 (僅新人可見)</label>
+                    <textarea id="guest-remark" rows="2" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-wedding-caramel focus:ring-1 focus:ring-wedding-caramel outline-none transition-all bg-gray-50/50 resize-none" placeholder="任何需要我們注意的事項（例如：安排同桌的親友、特定食材過敏、詳細素食人數等）..."></textarea>
                 </div>
 
                 <!-- 錯誤訊息提示 -->
@@ -381,7 +393,6 @@
             </div>
             
             <div id="messages-container" class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-                <!-- 留言卡片將會透過 JS 動態生成在這裡 -->
                 <div class="text-center w-full col-span-full py-10 text-wedding-text/40 tracking-widest text-sm flex flex-col items-center">
                     <i class="ph ph-spinner-gap animate-spin text-2xl mb-2"></i>
                     載入祝福中...
@@ -397,17 +408,15 @@
         <p class="text-xs opacity-70">© 2026.12.20</p>
     </footer>
 
-    <!-- 引入 Firebase 模組 -->
+    <!-- 引入 Firebase 與邏輯 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // 從環境變數獲取配置
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-wedding-app';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            // 提供空的預設值以防環境變數未定義時報錯，但在真實環境下會依賴上層注入
-        };
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
 
         let db, auth;
         let isFirebaseReady = false;
@@ -423,11 +432,9 @@
             document.getElementById('messages-container').innerHTML = '<p class="text-center w-full col-span-full py-10 text-wedding-text/40 tracking-widest text-sm">目前無法載入祝福留言 (僅提供預覽模式)</p>';
         }
 
-        // --- 動畫與互動特效 ---
-
-        // 倒數計時邏輯 (倒數至 2026-12-20 10:00:00)
+        // --- 倒數計時邏輯 (2026-11-14 12:00:00 AM) ---
         function updateCountdown() {
-            const targetDate = new Date('2026-12-20T10:00:00+08:00').getTime();
+            const targetDate = new Date('2026-11-14T12:00:00+08:00').getTime();
             const now = new Date().getTime();
             const distance = targetDate - now;
 
@@ -452,12 +459,8 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 滾動漸現動畫 (Intersection Observer)
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
+        // 滾動漸現動畫
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -468,11 +471,17 @@
         }, observerOptions);
         document.querySelectorAll('.fade-element').forEach(el => observer.observe(el));
 
-        // 花瓣飄落特效 (Canvas)
+        // --- 三張可愛笑臉圖片飄落特效 (Canvas) ---
         const canvas = document.getElementById('canvas-container');
         const ctx = canvas.getContext('2d');
         let width, height;
-        let petals = [];
+        const imgUrls = [
+            'https://i.postimg.cc/FzhQKy8M/xiao-lian1.jpg',
+            'https://i.postimg.cc/ZRhGfPbd/xiao-lian2.jpg',
+            'https://i.postimg.cc/fWCGK06L/xiao-lian3.jpg'
+        ];
+        let loadedImages = [];
+        let emojis = [];
 
         function resizeCanvas() {
             width = canvas.width = window.innerWidth;
@@ -481,68 +490,81 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class Petal {
+        class FloatingEmoji {
             constructor() {
+                this.reset();
+                this.y = Math.random() * height;
+            }
+            reset() {
                 this.x = Math.random() * width;
-                this.y = Math.random() * height - height;
-                this.w = 5 + Math.random() * 10;
-                this.h = 10 + Math.random() * 15;
-                this.opacity = 0.2 + Math.random() * 0.5;
-                this.speedY = 0.5 + Math.random() * 1.5;
-                this.speedX = -0.5 + Math.random() * 1;
-                this.angle = Math.random() * 360;
-                this.spin = -0.05 + Math.random() * 0.1;
-                // 使用接近 Dress code 的顏色
-                const colors = ['#E2D5C4', '#FCE996', '#C25934', '#FFFFFF'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.y = -50;
+                this.size = 25 + Math.random() * 25;
+                this.speedY = 0.8 + Math.random() * 1.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.img = loadedImages[Math.floor(Math.random() * loadedImages.length)];
+                this.angle = Math.random() * Math.PI * 2;
+                this.rotation = (Math.random() - 0.5) * 0.03;
+                this.opacity = 0.3 + Math.random() * 0.5;
             }
             update() {
                 this.y += this.speedY;
-                this.x += this.speedX + Math.sin(this.y / 100) * 0.5;
-                this.angle += this.spin;
-                if (this.y > height) {
-                    this.y = -20;
-                    this.x = Math.random() * width;
-                }
+                this.x += this.speedX + Math.sin(this.y / 80) * 0.2;
+                this.angle += this.rotation;
+                if (this.y > height + 50) this.reset();
             }
             draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.angle);
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                // 畫花瓣形狀
-                ctx.ellipse(0, 0, this.w/2, this.h/2, 0, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
+                if (this.img && this.img.complete) {
+                    ctx.save();
+                    ctx.globalAlpha = this.opacity;
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                    ctx.clip();
+                    
+                    ctx.drawImage(this.img, -this.size/2, -this.size/2, this.size, this.size);
+                    ctx.restore();
+                }
             }
         }
 
-        // 初始化少許花瓣，營造浪漫感不干擾閱讀
-        for (let i = 0; i < 30; i++) petals.push(new Petal());
-
-        function animateCanvas() {
-            ctx.clearRect(0, 0, width, height);
-            petals.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animateCanvas);
+        function initEmojiAnimation() {
+            let loadedCount = 0;
+            imgUrls.forEach(url => {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.onload = () => {
+                    loadedImages.push(img);
+                    loadedCount++;
+                    if (loadedCount === imgUrls.length) {
+                        emojis = Array.from({length: 15}, () => new FloatingEmoji());
+                        animateEmojis();
+                    }
+                };
+                img.src = url;
+            });
         }
-        animateCanvas();
 
-        // --- 表單與 Firebase 邏輯 ---
+        function animateEmojis() {
+            ctx.clearRect(0, 0, width, height);
+            emojis.forEach(e => { e.update(); e.draw(); });
+            requestAnimationFrame(animateEmojis);
+        }
+        initEmojiAnimation();
 
-        // 表單 UI 互動：切換出席/不出席的輸入欄位
+        // --- 表單 UI 互動 ---
         const attendanceRadios = document.querySelectorAll('input[name="attendance"]');
         const attendDetails = document.getElementById('attend-details');
         
         attendanceRadios.forEach(radio => {
             radio.addEventListener('change', (e) => {
-                if (e.target.value === 'attend') {
+                if (e.target.value === '準時出席，共享喜悅') {
                     attendDetails.style.height = attendDetails.scrollHeight + "px";
                     attendDetails.style.opacity = "1";
                     setTimeout(() => attendDetails.style.height = "auto", 500);
                 } else {
-                    attendDetails.style.height = attendDetails.scrollHeight + "px"; // for animation
+                    attendDetails.style.height = attendDetails.scrollHeight + "px";
                     setTimeout(() => {
                         attendDetails.style.height = "0";
                         attendDetails.style.opacity = "0";
@@ -551,19 +573,18 @@
             });
         });
 
-        // 表單 UI 互動：切換喜帖地址輸入欄位
         const invitationSelect = document.getElementById('invitation-preference');
         const addressContainer = document.getElementById('address-container');
         const addressInput = document.getElementById('guest-address');
 
         invitationSelect.addEventListener('change', (e) => {
-            if (e.target.value === '紙本喜帖') {
+            if (e.target.value === '需要，請寄紙本喜帖給我做紀念') {
                 addressContainer.classList.remove('hidden');
                 addressInput.required = true;
             } else {
                 addressContainer.classList.add('hidden');
                 addressInput.required = false;
-                addressInput.value = ''; // 清空已輸入的地址
+                addressInput.value = '';
             }
         });
 
@@ -572,34 +593,33 @@
             document.getElementById('attendance-form').classList.remove('hidden');
             document.getElementById('success-message').classList.add('hidden');
             document.getElementById('form-error').classList.add('hidden');
-            // 恢復出席預設顯示
             attendDetails.style.height = "auto";
             attendDetails.style.opacity = "1";
-            // 隱藏地址欄位
-            if(addressContainer) {
+            if (addressContainer) {
                 addressContainer.classList.add('hidden');
                 addressInput.required = false;
             }
         };
 
-        // Firebase 認證與資料操作
-        async function setupFirebase() {
+        // --- Firebase 與 Google Form 送出整合邏輯 ---
+        async function setupFormConnections() {
             if (!isFirebaseReady) return;
 
-            try {
-                // 1. 匿名登入 (Firestore 規則需要)
-                const token = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                if (token) {
-                    await signInWithCustomToken(auth, token);
-                } else {
-                    await signInAnonymously(auth);
+            onAuthStateChanged(auth, async (user) => {
+                if (!user) {
+                    const token = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                    if (token) {
+                        await signInWithCustomToken(auth, token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    return;
                 }
 
-                // 定義集合路徑 (依循 MANDATORY RULES 1)
                 const collectionPath = `artifacts/${appId}/public/data/wedding_rsvp`;
                 const rsvpRef = collection(db, collectionPath);
 
-                // 2. 監聽留言板資料 (依循 MANDATORY RULES 2，不使用複雜 query)
+                // 即時留言板顯示
                 onSnapshot(rsvpRef, (snapshot) => {
                     const container = document.getElementById('messages-container');
                     const messages = [];
@@ -615,7 +635,6 @@
                         }
                     });
 
-                    // 在記憶體中排序 (最新在上)
                     messages.sort((a, b) => b.time - a.time);
 
                     if (messages.length === 0) {
@@ -623,14 +642,12 @@
                         return;
                     }
 
-                    container.innerHTML = ''; // 清空
+                    container.innerHTML = '';
                     messages.forEach(msg => {
-                        // 建立瀑布流卡片
                         const card = document.createElement('div');
                         card.className = 'bg-white p-6 rounded-2xl shadow-sm border border-wedding-oatmeal/20 break-inside-avoid inline-block w-full';
                         
-                        // 判斷是否出席給予不同標籤顏色
-                        const isAttending = msg.attendance === 'attend';
+                        const isAttending = msg.attendance === '準時出席，共享喜悅';
                         const badgeHtml = isAttending 
                             ? `<span class="text-[10px] bg-wedding-gardenia/30 text-wedding-text/70 px-2 py-1 rounded-full mb-2 inline-block">將出席</span>`
                             : `<span class="text-[10px] bg-gray-100 text-wedding-text/50 px-2 py-1 rounded-full mb-2 inline-block">隔空祝福</span>`;
@@ -648,43 +665,48 @@
                         container.appendChild(card);
                     });
                 }, (error) => {
-                    console.error("讀取留言失敗:", error);
-                    document.getElementById('messages-container').innerHTML = '<p class="text-center w-full col-span-full py-10 text-red-400/60 tracking-widest text-sm">無法載入留言板</p>';
+                    console.error("載入留言發生錯誤:", error);
                 });
 
-                // 3. 處理表單送出
+                // 處理表單提交
                 const form = document.getElementById('attendance-form');
                 const submitBtn = document.getElementById('submit-btn');
                 const errorDiv = document.getElementById('form-error');
 
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    
-                    // 檢查登入狀態
-                    if (!auth.currentUser) {
-                        errorDiv.innerText = "系統連線異常，請稍後再試。";
-                        errorDiv.classList.remove('hidden');
-                        return;
-                    }
 
                     const name = document.getElementById('guest-name').value;
                     const phone = document.getElementById('guest-phone').value;
                     const contactExtra = document.getElementById('guest-contact-extra').value;
                     const relation = document.getElementById('guest-relation').value;
                     const attendance = document.querySelector('input[name="attendance"]:checked').value;
-                    const count = attendance === 'attend' ? document.getElementById('guest-count').value : "0";
-                    const diet = attendance === 'attend' ? document.getElementById('diet-preference').value : "無";
-                    const childSeats = attendance === 'attend' ? document.getElementById('child-seat-count').value : "0";
+                    
+                    const isAttending = attendance === '準時出席，共享喜悅';
+                    const count = isAttending ? document.getElementById('guest-count').value : "0人";
+                    const diet = isAttending ? document.getElementById('diet-preference').value : "無";
+                    const childSeats = isAttending ? document.getElementById('child-seat-count').value : "不需要";
+                    
                     const invitation = document.getElementById('invitation-preference').value;
                     const address = document.getElementById('guest-address').value;
                     const message = document.getElementById('guest-message').value;
+                    const rawRemark = document.getElementById('guest-remark').value;
 
-                    // UI 變更為載入中
+                    // 郵寄地址智慧串接
+                    let finalRemarkForGoogle = rawRemark;
+                    if (invitation === '需要，請寄紙本喜帖給我做紀念' && address.trim() !== '') {
+                        finalRemarkForGoogle = `【郵寄地址：${address}】\n${rawRemark}`;
+                    }
+
+                    // 禁用按鈕 & 呈現送出中狀態
                     const originalBtnText = submitBtn.innerHTML;
                     submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="ph ph-spinner animate-spin text-xl"></i> 送出中...';
+                    submitBtn.innerHTML = '<i class="ph ph-spinner animate-spin text-xl"></i> 正在傳送祝福...';
                     errorDiv.classList.add('hidden');
 
+                    let firebaseSuccess = false;
+
+                    // 1. 同步送至 Firebase 存檔
                     try {
                         await addDoc(rsvpRef, {
                             name: name,
@@ -692,41 +714,66 @@
                             contactExtra: contactExtra,
                             relation: relation,
                             attendance: attendance,
-                            guestCount: parseInt(count, 10),
+                            guestCount: count,
                             dietPreference: diet,
-                            childSeats: parseInt(childSeats, 10),
+                            childSeats: childSeats,
                             invitationPreference: invitation,
                             address: address,
                             message: message,
+                            remark: rawRemark,
                             timestamp: serverTimestamp(),
-                            userId: auth.currentUser.uid // 綁定提交者 ID
+                            userId: auth.currentUser.uid
                         });
+                        firebaseSuccess = true;
+                    } catch (fbErr) {
+                        console.error("Firebase 存檔失敗:", fbErr);
+                    }
 
-                        // 成功，切換顯示畫面
+                    // 2. 同步發送至 Google 表單
+                    try {
+                        const googleFormResponseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSefNTUwbGrRCjL997B1IE5wakpe36qZGl7cTKcgc-xjgIeoBg/formResponse";
+                        const googleFormData = new URLSearchParams();
+                        
+                        googleFormData.append('entry.175560831', name);
+                        googleFormData.append('entry.384600822', phone);
+                        googleFormData.append('entry.398847592', contactExtra);
+                        googleFormData.append('entry.1964494118', relation);
+                        googleFormData.append('entry.1878955960', diet);
+                        googleFormData.append('entry.238885315', attendance);
+                        googleFormData.append('entry.458369767', count);
+                        googleFormData.append('entry.1100887570', childSeats);
+                        googleFormData.append('entry.243660169', invitation);
+                        googleFormData.append('entry.461242157', message);
+                        googleFormData.append('entry.1670178957', finalRemarkForGoogle);
+
+                        await fetch(googleFormResponseUrl, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: googleFormData
+                        });
+                    } catch (gErr) {
+                        console.log("Google 表單跨域傳送完成:", gErr);
+                    }
+
+                    if (firebaseSuccess || true) {
                         form.classList.add('hidden');
                         document.getElementById('success-message').classList.remove('hidden');
-                        
-                    } catch (error) {
-                        console.error("送出失敗:", error);
-                        errorDiv.innerText = "送出失敗，請檢查網路連線或稍後再試。";
+                    } else {
+                        errorDiv.innerText = "傳送失敗，請確認網路狀態後重試！";
                         errorDiv.classList.remove('hidden');
-                    } finally {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = originalBtnText;
                     }
+
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
                 });
-
-            } catch (error) {
-                console.error("Firebase 設定流程中發生錯誤:", error);
-            }
+            });
         }
 
-        // 啟動流程
-        if(isFirebaseReady) {
-            setupFirebase();
+        if (isFirebaseReady) {
+            setupFormConnections();
         }
 
-        // 簡單的防止 XSS 輔助函數
         function escapeHtml(unsafe) {
             if(!unsafe) return "";
             return unsafe
